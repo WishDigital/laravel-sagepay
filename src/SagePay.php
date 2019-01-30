@@ -1131,28 +1131,28 @@ class SagePay
         return $sagePayResponse;
     }
 
-    /**
-     * Code to encrypt the payment data being submitted to sagepay
-     *
-     * @param $strIn
-     * @return string
-     */
     protected function encryptAndEncode($strIn)
     {
-        return "@" . bin2hex(openssl_encrypt($strIn, 'AES-128-CBC', config('sagepay.encryptPassword'), OPENSSL_RAW_DATA, config('sagepay.encryptPassword')));
+        $strIn = $this->pkcs5_pad($strIn, 16);
+        $encrypted = openssl_encrypt($strIn, $this->encryptMethod, config('sagepay.encryptPassword'), OPENSSL_RAW_DATA, config('sagepay.encryptPassword'));
+        $encrypted = '@'.bin2hex($encrypted);
+
+        return $encrypted;
     }
 
-
-    /**
-     * Code to decrypt the response string SagePay attaches to the failure or success URL
-     *
-     * @param $strIn
-     * @return string
-     */
-    protected function decodeAndDecrypt($strIn)
+    protected function decodeAndDecrypt(string $strIn)
     {
         $strIn = substr($strIn, 1);
         $strIn = pack('H*', $strIn);
-        return openssl_decrypt($strIn, 'AES-128-CBC', config('sagepay.encryptPassword'), OPENSSL_RAW_DATA, config('sagepay.encryptPassword'));
+        $decrypted = openssl_decrypt($strIn, $this->encryptMethod, config('sagepay.encryptPassword'), OPENSSL_RAW_DATA, config('sagepay.encryptPassword'));
+
+        return $decrypted;
+    }
+
+    protected function pkcs5_pad($text, $blocksize)
+    {
+        $pad = $blocksize - (strlen($text) % $blocksize);
+
+        return $text.str_repeat(chr($pad), $pad);
     }
 }
