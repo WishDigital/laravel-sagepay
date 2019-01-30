@@ -27,5 +27,15 @@
         "psr-4": {
             "WishDigital\\LaravelSagePay\\": "src/"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "WishDigital\\LaravelSagePay\\SagePayServiceProvider"
+            ],
+            "aliases": {
+                "SagePay": "WishDigital\\LaravelSagePay\\Facade"
+            }
+        }
     }
 }
