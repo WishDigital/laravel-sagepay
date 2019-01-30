@@ -1,8 +1,6 @@
 <?php
 
-namespace Kofikwarteng\LaravelSagepay;
-
-use Illuminate\Support\ServiceProvider;
+namespace WishDigital\LaravelSagePay;
 
 class SagePayServiceProvider extends \Illuminate\Support\ServiceProvider
 {

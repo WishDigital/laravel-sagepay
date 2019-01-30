@@ -1,10 +1,19 @@
 {
-    "name": "kofikwarteng/laravel-sagepay",
+    "name": "wishdigital/laravel-sagepay",
     "description": "Laravel 5.x Sagepay Integration",
     "type": "library",
     "license": "MIT",
-    "keywords": ["laravel", "payment", "processor", "sagepay"],
+    "keywords": [
+        "laravel",
+        "payment",
+        "processor",
+        "sagepay"
+    ],
     "authors": [
+        {
+            "name": "Wish Digital",
+            "email": "technical@wishdigital.co.uk"
+        },
         {
             "name": "Kofi Kwarteng",
             "email": "kofi@kofikwarteng.com"
@@ -12,11 +21,11 @@
     ],
     "minimum-stability": "stable",
     "require": {
-    "php": ">=5.5.9"
-},
+        "php": ">=5.5.9"
+    },
     "autoload": {
         "psr-4": {
-            "Kofikwarteng\\LaravelSagepay\\": "src/"
+            "WishDigital\\LaravelSagePay\\": "src/"
         }
     }
 }
