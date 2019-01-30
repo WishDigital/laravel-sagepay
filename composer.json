@@ -34,7 +34,7 @@
                 "WishDigital\\LaravelSagePay\\SagePayServiceProvider"
             ],
             "aliases": {
-                "SagePay": "WishDigital\\LaravelSagePay\\Facade"
+                "SagePay": "WishDigital\\LaravelSagePay\\Facade\\SagePayFacade"
             }
         }
     }
