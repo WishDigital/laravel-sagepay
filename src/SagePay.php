@@ -56,10 +56,12 @@ class SagePay
     protected $language;
     protected $website;
     protected $encryptMethod = 'AES-128-CBC';
+    protected $liveMode = true;
 
     public function __construct()
     {
         $this->setVendorTxCode($this->createVendorTxCode());
+        $this->liveMode = config('sagepay.mode') == 'live' ? true : false;
     }
 
     public function getCrypt()
@@ -628,7 +630,8 @@ class SagePay
     protected function encryptAndEncode($strIn)
     {
         $strIn = $this->pkcs5_pad($strIn, 16);
-        $encrypted = openssl_encrypt($strIn, $this->encryptMethod, config('sagepay.encryptPassword'), OPENSSL_RAW_DATA, config('sagepay.encryptPassword'));
+
+        $encrypted = openssl_encrypt($strIn, $this->encryptMethod, $this->liveMode ? config('sagepay.live_encryption_password') : config('sagepay.test_encryption_password'), OPENSSL_RAW_DATA, $this->liveMode ? config('sagepay.live_encryption_password') : config('sagepay.test_encryption_password'));
         $encrypted = '@'.bin2hex($encrypted);
 
         return $encrypted;
@@ -638,7 +641,8 @@ class SagePay
     {
         $strIn = substr($strIn, 1);
         $strIn = pack('H*', $strIn);
-        $decrypted = openssl_decrypt($strIn, $this->encryptMethod, config('sagepay.encryptPassword'), OPENSSL_RAW_DATA, config('sagepay.encryptPassword'));
+
+        $decrypted = openssl_decrypt($strIn, $this->encryptMethod, $this->liveMode ? config('sagepay.live_encryption_password') : config('sagepay.test_encryption_password'), OPENSSL_RAW_DATA, $this->liveMode ? config('sagepay.live_encryption_password') : config('sagepay.test_encryption_password'));
 
         return $decrypted;
     }
